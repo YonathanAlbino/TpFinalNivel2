@@ -192,6 +192,7 @@
             this.btbAgregarMarca.TabIndex = 16;
             this.btbAgregarMarca.Text = "+";
             this.btbAgregarMarca.UseVisualStyleBackColor = true;
+            this.btbAgregarMarca.Click += new System.EventHandler(this.btbAgregarMarca_Click);
             // 
             // btnAgregarDescripcion
             // 
@@ -219,6 +220,7 @@
             this.btnEliminarMarca.TabIndex = 19;
             this.btnEliminarMarca.Text = "-";
             this.btnEliminarMarca.UseVisualStyleBackColor = true;
+            this.btnEliminarMarca.Click += new System.EventHandler(this.btnEliminarMarca_Click);
             // 
             // FrmAltaArticulo
             // 

@@ -11,6 +11,7 @@ using Dominio;
 using Helper;
 using Negocio;
 
+
 namespace Presentacion
 {
     public partial class FrmAltaArticulo : Form
@@ -76,6 +77,51 @@ namespace Presentacion
             return actualizarDGV;
         }
 
-      
+        private void btbAgregarMarca_Click(object sender, EventArgs e)
+        {
+            Marca nueva = new Marca();
+            MarcaNegocio negocio = new MarcaNegocio();
+            try
+            {
+                nueva.Descripcion = cboMarca.Text;
+
+                if(help.existeComboBox(cboMarca, nueva.Descripcion))
+                {
+                    MessageBox.Show("Ya existe la marca que desea agregar");
+                    return;
+                }
+
+                negocio.agregar(nueva);
+                MessageBox.Show("Nueva marca agregada");
+                cboMarca.DataSource = negocio.listar();
+                cboMarca.Text = nueva.Descripcion;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        private void btnEliminarMarca_Click(object sender, EventArgs e)
+        {
+            Marca seleccionada;
+            MarcaNegocio negocio = new MarcaNegocio();
+            try
+            {
+                if(help.validarSiNo("¿Desea eliminar esta marca?", "Eliminando.."))
+                {
+                    seleccionada = (Marca)cboMarca.SelectedItem;
+                    negocio.eliminarMarca(seleccionada);
+                    MessageBox.Show("Marca eliminada");
+                    cboMarca.DataSource = negocio.listar();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

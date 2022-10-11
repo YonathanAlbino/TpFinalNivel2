@@ -63,7 +63,7 @@ namespace Helper
             try
             {
                 int i;
-                i = comboBox.FindString(nuevaInclusion);
+                i = comboBox.FindStringExact(nuevaInclusion);
                 if (i != -1)
                     return true;
                 else
