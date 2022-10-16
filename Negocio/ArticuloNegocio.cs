@@ -5,16 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Dominio;
 using Conexion_Base_de_datos;
+using Helper;
 
 
 namespace Negocio
 {
     public class ArticuloNegocio
     {
-    public List<Articulo> listar()
+        AccesoDatos datos = new AccesoDatos();
+        HelpClass help = new HelpClass();
+        public List<Articulo> listar()
         {
             List<Articulo> lista = new List<Articulo>();
-            AccesoDatos datos = new AccesoDatos();
+            
             try
             {
                 datos.setearConsulta("select A.Id, Codigo, Nombre, A.Descripcion, ImagenUrl, Precio, M.Descripcion Marca, C.Descripcion Categoria from ARTICULOS A, MARCAS M, CATEGORIAS C  where A.IdMarca = M.Id and A.IdCategoria = C.Id");
@@ -23,13 +26,23 @@ namespace Negocio
                 while (datos.Lector.Read())
                 {
                     Articulo aux = new Articulo((string)datos.Lector["Marca"], (string)datos.Lector["Categoria"]);
-
+                    
                     aux.Id = (int)datos.Lector["Id"];
-                    aux.Codigo = (string)datos.Lector["Codigo"];
-                    aux.Nombre = (string)datos.Lector["Nombre"];
-                    aux.Descripcion = (string)datos.Lector["Descripcion"];
-                    aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
-                    aux.Precio = (decimal)datos.Lector["Precio"];
+
+                    if(!(help.validarColumnaNula(datos.Lector, "Codigo")))
+                        aux.Codigo = (string)datos.Lector["Codigo"];
+
+                    if(!(help.validarColumnaNula(datos.Lector, "Nombre")))
+                        aux.Nombre = (string)datos.Lector["Nombre"];
+
+                    if (!(help.validarColumnaNula(datos.Lector, "Descripcion")))
+                        aux.Descripcion = (string)datos.Lector["Descripcion"];
+
+                    if (!(help.validarColumnaNula(datos.Lector, "ImagenUrl")))
+                        aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
+
+                    if (!(help.validarColumnaNula(datos.Lector, "Precio")))
+                        aux.Precio = (decimal)datos.Lector["Precio"];
 
                     
                     lista.Add(aux);
@@ -50,7 +63,6 @@ namespace Negocio
 
     public void agregar(Articulo nuevo)
         {
-            AccesoDatos datos = new AccesoDatos();
             try
             {
                 datos.setearConsulta("insert into ARTICULOS (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, ImagenUrl, Precio)values(@Codigo, @Nombre, @Descripcion, @IdMarca, @IdCategoria, @ImagenUrl, @Precio)");

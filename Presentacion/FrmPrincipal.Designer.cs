@@ -70,15 +70,18 @@
             // dgvArticulos
             // 
             this.dgvArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvArticulos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvArticulos.Location = new System.Drawing.Point(23, 62);
+            this.dgvArticulos.MultiSelect = false;
             this.dgvArticulos.Name = "dgvArticulos";
-            this.dgvArticulos.Size = new System.Drawing.Size(549, 257);
+            this.dgvArticulos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvArticulos.Size = new System.Drawing.Size(650, 262);
             this.dgvArticulos.TabIndex = 3;
             this.dgvArticulos.SelectionChanged += new System.EventHandler(this.dgvArticulos_SelectionChanged);
             // 
             // pcbArticulos
             // 
-            this.pcbArticulos.Location = new System.Drawing.Point(609, 112);
+            this.pcbArticulos.Location = new System.Drawing.Point(713, 117);
             this.pcbArticulos.Name = "pcbArticulos";
             this.pcbArticulos.Size = new System.Drawing.Size(186, 207);
             this.pcbArticulos.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;

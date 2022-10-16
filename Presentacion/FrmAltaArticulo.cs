@@ -23,7 +23,7 @@ namespace Presentacion
         }
 
         HelpClass help = new HelpClass();
-        Articulo articulo = new Articulo();
+        Articulo articulo;
         private bool actualizarDGV = false;
 
         private void FrmAltaArticulo_Load(object sender, EventArgs e)
@@ -61,6 +61,28 @@ namespace Presentacion
                 articulo.ImagenUrl = txtImagen.Text;
                 articulo.Precio = decimal.Parse(txtPrecio.Text);
 
+                if(cboMarca.SelectedItem == null) //Verifica si al momento de dar aceptar se agrego una nueva marca
+                {
+                    Marca nueva = new Marca();
+                    MarcaNegocio marcaNegocio = new MarcaNegocio();
+                    nueva.Descripcion = cboMarca.Text;
+                    marcaNegocio.agregar(nueva);
+
+                    List<Marca> lista = marcaNegocio.listar();
+                    articulo.MarcaArticulo = lista.Find(x => x.Descripcion == nueva.Descripcion);
+                    
+                }
+                if(cboCategoria.SelectedItem == null) //Verifica si al momento de dar aceptar se agrego una nueva categoria
+                {
+                    Categoria nueva = new Categoria();
+                    CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+                    nueva.Descripcion = cboCategoria.Text;
+                    categoriaNegocio.agregar(nueva);
+
+                    List<Categoria> lista = categoriaNegocio.listar();
+                    articulo.CategoriaArticulo = lista.Find(x => x.Descripcion == nueva.Descripcion);
+                }
+                
                 negocio.agregar(articulo);
                 MessageBox.Show("Agregado exitosamente");
                 actualizarDGV = true;
@@ -113,9 +135,54 @@ namespace Presentacion
                 {
                     seleccionada = (Marca)cboMarca.SelectedItem;
                     negocio.eliminarMarca(seleccionada);
-                    MessageBox.Show("Marca eliminada");
                     cboMarca.DataSource = negocio.listar();
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        private void btnAgregarDescripcion_Click(object sender, EventArgs e)
+        {
+            Categoria nueva = new Categoria();
+            CategoriaNegocio negocio = new CategoriaNegocio();
+            try
+            {
+                nueva.Descripcion = cboCategoria.Text;
+                if(help.existeComboBox(cboCategoria, nueva.Descripcion))
+                {
+                    MessageBox.Show("Ya existe la categoria que desea agregar");
+                    return;
+                }
+
+                negocio.agregar(nueva);
+                MessageBox.Show("Nueva categoria agregada");
+                cboCategoria.DataSource = negocio.listar();
+                cboCategoria.Text = nueva.Descripcion;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        private void btnEliminarDescripcion_Click(object sender, EventArgs e)
+        {
+            Categoria seleccionada = new Categoria();
+            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+            try
+            {
+               if(help.validarSiNo("¿Desea eliminar esta categoria?", "Eliminando"))
+                {
+                    seleccionada = (Categoria)cboCategoria.SelectedItem;
+                    categoriaNegocio.eliminarCategoria(seleccionada);
+                    cboCategoria.DataSource = categoriaNegocio.listar();
+                }
+
             }
             catch (Exception ex)
             {

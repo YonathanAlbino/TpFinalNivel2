@@ -7,16 +7,17 @@ using Dominio;
 using Helper;
 using Conexion_Base_de_datos;
 
+
 namespace Negocio
 {
     public class MarcaNegocio
     {
+        AccesoDatos datos = new AccesoDatos();
         HelpClass help = new HelpClass();
-      public List<Marca> listar()
+        public List<Marca> listar()
         {
             List<Marca> lista = new List<Marca>();
-            AccesoDatos datos = new AccesoDatos();
-
+           
             try
             {
                 datos.setearConsulta("select Id, Descripcion from MARCAS");
@@ -27,7 +28,9 @@ namespace Negocio
                     Marca aux = new Marca();
 
                     aux.Id = (int)datos.Lector["id"];
-                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+
+                    if(!(help.validarColumnaNula(datos.Lector, "Descripcion")))
+                        aux.Descripcion = (string)datos.Lector["Descripcion"];
 
                     lista.Add(aux);
                 }
@@ -47,7 +50,6 @@ namespace Negocio
 
         public void agregar(Marca nuevo)
         {
-            AccesoDatos datos = new AccesoDatos();
             try
             {
                 datos.setearConsulta("insert into MARCAS (Descripcion)values(@Descripcion)");
@@ -67,7 +69,6 @@ namespace Negocio
 
         public void eliminarMarca(Marca seleccionada)
         {
-            AccesoDatos datos = new AccesoDatos();
             try
             {
                 datos.setearConsulta("delete from MARCAS where id = @id");

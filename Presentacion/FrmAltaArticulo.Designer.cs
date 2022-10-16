@@ -41,12 +41,12 @@
             this.btnAceptar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.lblMarca = new System.Windows.Forms.Label();
-            this.lvlDescripcion = new System.Windows.Forms.Label();
+            this.lvlCategoria = new System.Windows.Forms.Label();
             this.cboMarca = new System.Windows.Forms.ComboBox();
             this.cboCategoria = new System.Windows.Forms.ComboBox();
             this.btbAgregarMarca = new System.Windows.Forms.Button();
-            this.btnAgregarDescripcion = new System.Windows.Forms.Button();
-            this.btnEliminarDescripcion = new System.Windows.Forms.Button();
+            this.btnAgregarCategoria = new System.Windows.Forms.Button();
+            this.btnEliminarCategoria = new System.Windows.Forms.Button();
             this.btnEliminarMarca = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -159,14 +159,14 @@
             this.lblMarca.TabIndex = 12;
             this.lblMarca.Text = "Marca:";
             // 
-            // lvlDescripcion
+            // lvlCategoria
             // 
-            this.lvlDescripcion.AutoSize = true;
-            this.lvlDescripcion.Location = new System.Drawing.Point(39, 221);
-            this.lvlDescripcion.Name = "lvlDescripcion";
-            this.lvlDescripcion.Size = new System.Drawing.Size(72, 13);
-            this.lvlDescripcion.TabIndex = 13;
-            this.lvlDescripcion.Text = "Descripcioón:";
+            this.lvlCategoria.AutoSize = true;
+            this.lvlCategoria.Location = new System.Drawing.Point(39, 221);
+            this.lvlCategoria.Name = "lvlCategoria";
+            this.lvlCategoria.Size = new System.Drawing.Size(52, 13);
+            this.lvlCategoria.TabIndex = 13;
+            this.lvlCategoria.Text = "Categoria";
             // 
             // cboMarca
             // 
@@ -194,23 +194,25 @@
             this.btbAgregarMarca.UseVisualStyleBackColor = true;
             this.btbAgregarMarca.Click += new System.EventHandler(this.btbAgregarMarca_Click);
             // 
-            // btnAgregarDescripcion
+            // btnAgregarCategoria
             // 
-            this.btnAgregarDescripcion.Location = new System.Drawing.Point(306, 222);
-            this.btnAgregarDescripcion.Name = "btnAgregarDescripcion";
-            this.btnAgregarDescripcion.Size = new System.Drawing.Size(24, 23);
-            this.btnAgregarDescripcion.TabIndex = 17;
-            this.btnAgregarDescripcion.Text = "+";
-            this.btnAgregarDescripcion.UseVisualStyleBackColor = true;
+            this.btnAgregarCategoria.Location = new System.Drawing.Point(306, 222);
+            this.btnAgregarCategoria.Name = "btnAgregarCategoria";
+            this.btnAgregarCategoria.Size = new System.Drawing.Size(24, 23);
+            this.btnAgregarCategoria.TabIndex = 17;
+            this.btnAgregarCategoria.Text = "+";
+            this.btnAgregarCategoria.UseVisualStyleBackColor = true;
+            this.btnAgregarCategoria.Click += new System.EventHandler(this.btnAgregarDescripcion_Click);
             // 
-            // btnEliminarDescripcion
+            // btnEliminarCategoria
             // 
-            this.btnEliminarDescripcion.Location = new System.Drawing.Point(336, 222);
-            this.btnEliminarDescripcion.Name = "btnEliminarDescripcion";
-            this.btnEliminarDescripcion.Size = new System.Drawing.Size(24, 23);
-            this.btnEliminarDescripcion.TabIndex = 18;
-            this.btnEliminarDescripcion.Text = "-";
-            this.btnEliminarDescripcion.UseVisualStyleBackColor = true;
+            this.btnEliminarCategoria.Location = new System.Drawing.Point(336, 222);
+            this.btnEliminarCategoria.Name = "btnEliminarCategoria";
+            this.btnEliminarCategoria.Size = new System.Drawing.Size(24, 23);
+            this.btnEliminarCategoria.TabIndex = 18;
+            this.btnEliminarCategoria.Text = "-";
+            this.btnEliminarCategoria.UseVisualStyleBackColor = true;
+            this.btnEliminarCategoria.Click += new System.EventHandler(this.btnEliminarDescripcion_Click);
             // 
             // btnEliminarMarca
             // 
@@ -228,12 +230,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(364, 445);
             this.Controls.Add(this.btnEliminarMarca);
-            this.Controls.Add(this.btnEliminarDescripcion);
-            this.Controls.Add(this.btnAgregarDescripcion);
+            this.Controls.Add(this.btnEliminarCategoria);
+            this.Controls.Add(this.btnAgregarCategoria);
             this.Controls.Add(this.btbAgregarMarca);
             this.Controls.Add(this.cboCategoria);
             this.Controls.Add(this.cboMarca);
-            this.Controls.Add(this.lvlDescripcion);
+            this.Controls.Add(this.lvlCategoria);
             this.Controls.Add(this.lblMarca);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
@@ -271,12 +273,12 @@
         private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Label lblMarca;
-        private System.Windows.Forms.Label lvlDescripcion;
+        private System.Windows.Forms.Label lvlCategoria;
         private System.Windows.Forms.ComboBox cboMarca;
         private System.Windows.Forms.ComboBox cboCategoria;
         private System.Windows.Forms.Button btbAgregarMarca;
-        private System.Windows.Forms.Button btnAgregarDescripcion;
-        private System.Windows.Forms.Button btnEliminarDescripcion;
+        private System.Windows.Forms.Button btnAgregarCategoria;
+        private System.Windows.Forms.Button btnEliminarCategoria;
         private System.Windows.Forms.Button btnEliminarMarca;
     }
 }

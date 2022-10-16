@@ -60,6 +60,8 @@ namespace Presentacion
             {
                 ArticuloNegocio negocio = new ArticuloNegocio();
                 dgvArticulos.DataSource = negocio.listar();
+                dgvArticulos.Columns["Id"].Visible = false;
+                dgvArticulos.Columns["ImagenUrl"].Visible = false;
             }
             catch (Exception ex)
             {
