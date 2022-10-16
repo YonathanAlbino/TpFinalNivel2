@@ -190,5 +190,18 @@ namespace Presentacion
                 throw ex;
             }
         }
+
+        private void txtImagen_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                help.cargarImagen(pcbAltaArticulo, txtImagen.Text);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+        }
     }
 }
