@@ -12,7 +12,7 @@ namespace Negocio
 {
     public class ArticuloNegocio
     {
-        AccesoDatos datos = new AccesoDatos();
+        private AccesoDatos datos = new AccesoDatos();
         HelpClass help = new HelpClass();
         public List<Articulo> listar()
         {
@@ -20,12 +20,12 @@ namespace Negocio
             
             try
             {
-                datos.setearConsulta("select A.Id, Codigo, Nombre, A.Descripcion, ImagenUrl, Precio, M.Descripcion Marca, C.Descripcion Categoria from ARTICULOS A, MARCAS M, CATEGORIAS C  where A.IdMarca = M.Id and A.IdCategoria = C.Id");
+                datos.setearConsulta("select A.Id, Codigo, Nombre, A.Descripcion, ImagenUrl, Precio, M.Descripcion Marca, C.Descripcion Categoria, A.IdMarca,  A.IdCategoria from ARTICULOS A, MARCAS M, CATEGORIAS C  where A.IdMarca = M.Id and A.IdCategoria = C.Id");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    Articulo aux = new Articulo((string)datos.Lector["Marca"], (string)datos.Lector["Categoria"]);
+                    Articulo aux = new Articulo();
                     
                     aux.Id = (int)datos.Lector["Id"];
 
@@ -44,7 +44,21 @@ namespace Negocio
                     if (!(help.validarColumnaNula(datos.Lector, "Precio")))
                         aux.Precio = (decimal)datos.Lector["Precio"];
 
-                    
+                    aux.MarcaArticulo = new Marca();
+
+                    if (!(help.validarColumnaNula(datos.Lector, "Marca")))
+                        aux.MarcaArticulo.Descripcion = (string)datos.Lector["Marca"];
+                    aux.MarcaArticulo.Id = (int)datos.Lector["IdMarca"];
+
+                    aux.CategoriaArticulo = new Categoria();
+
+                    if (!(help.validarColumnaNula(datos.Lector, "Categoria")))
+                        aux.CategoriaArticulo.Descripcion = (string)datos.Lector["Categoria"];
+                    aux.CategoriaArticulo.Id = (int)datos.Lector["IdCategoria"];
+
+
+
+
                     lista.Add(aux);
                 }
 
@@ -87,6 +101,31 @@ namespace Negocio
             }
         }
 
+        public void modificar(Articulo articulo)
+        {
+            try
+            {
+                datos.setearConsulta("update ARTICULOS set Codigo = @Codigo, Nombre = @Nombre, Descripcion = @Descripcion, IdMarca = @IdMarca, IdCategoria = @IdCategoria, ImagenUrl = @ImagenUrl, Precio = @Precio where id = @id");
+                datos.setearParametro("@Codigo", articulo.Codigo);
+                datos.setearParametro("@Nombre", articulo.Nombre);
+                datos.setearParametro("@Descripcion", articulo.Descripcion);
+                datos.setearParametro("@IdMarca", articulo.MarcaArticulo.Id);
+                datos.setearParametro("@IdCategoria", articulo.CategoriaArticulo.Id);
+                datos.setearParametro("@ImagenUrl", articulo.ImagenUrl);
+                datos.setearParametro("@Precio", articulo.Precio);
+                datos.setearParametro("@id", articulo.Id);
+                datos.ejecutarAccion();
 
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

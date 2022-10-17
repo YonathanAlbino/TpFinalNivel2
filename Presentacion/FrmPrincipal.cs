@@ -31,8 +31,20 @@ namespace Presentacion
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            FrmAltaArticulo ventana = new FrmAltaArticulo("Modificar el articulo");
-            ventana.ShowDialog();
+            Articulo seleccionado;
+            try
+            {
+                seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                FrmAltaArticulo ventana = new FrmAltaArticulo("Modificar el articulo", seleccionado);
+                ventana.ShowDialog();
+                if (ventana.actualizarDgv())
+                    cargar();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void btnVerArticulosEliminados_Click(object sender, EventArgs e)
@@ -58,10 +70,14 @@ namespace Presentacion
         {
             try
             {
+                List<Articulo> lista = new List<Articulo>();
                 ArticuloNegocio negocio = new ArticuloNegocio();
-                dgvArticulos.DataSource = negocio.listar();
+                lista = negocio.listar();
+                dgvArticulos.DataSource = lista;
+                help.cargarImagen(pcbArticulos, lista[0].ImagenUrl);
                 dgvArticulos.Columns["Id"].Visible = false;
                 dgvArticulos.Columns["ImagenUrl"].Visible = false;
+                 
             }
             catch (Exception ex)
             {

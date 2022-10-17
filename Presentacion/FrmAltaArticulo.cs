@@ -16,6 +16,13 @@ namespace Presentacion
 {
     public partial class FrmAltaArticulo : Form
     {
+        public FrmAltaArticulo(string Text, Articulo articulo)
+        {
+            InitializeComponent();
+            this.Text = Text;
+            this.articulo = articulo;
+        }
+
         public FrmAltaArticulo(string Text)
         {
             InitializeComponent();
@@ -23,22 +30,45 @@ namespace Presentacion
         }
 
         HelpClass help = new HelpClass();
-        Articulo articulo;
+        private Articulo articulo = null;
         private bool actualizarDGV = false;
 
-        private void FrmAltaArticulo_Load(object sender, EventArgs e)
+
+        private void cargar()
         {
             MarcaNegocio negocio = new MarcaNegocio();
             CategoriaNegocio negocio1 = new CategoriaNegocio();
             try
             {
                 cboMarca.DataSource = negocio.listar();
+                cboMarca.ValueMember = "Id";
+                cboMarca.DisplayMember = "Descripcion";
+
                 cboCategoria.DataSource = negocio1.listar();
+                cboCategoria.ValueMember = "Id";
+                cboCategoria.DisplayMember = "Descripcion";
+
+                if (articulo != null)
+                {
+                    help.cargarImagen(pcbAltaArticulo, articulo.ImagenUrl);
+                    txtCodigoArt.Text = articulo.Codigo;
+                    txtNombre.Text = articulo.Nombre;
+                    txtDescripcion.Text = articulo.Descripcion;
+                    txtImagen.Text = articulo.ImagenUrl;
+                    txtPrecio.Text = articulo.Precio.ToString();
+                    cboMarca.SelectedValue = articulo.MarcaArticulo.Id;
+                    cboCategoria.SelectedValue = articulo.CategoriaArticulo.Id;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
+
+        }
+        private void FrmAltaArticulo_Load(object sender, EventArgs e)
+        {
+            cargar();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -82,10 +112,19 @@ namespace Presentacion
                     List<Categoria> lista = categoriaNegocio.listar();
                     articulo.CategoriaArticulo = lista.Find(x => x.Descripcion == nueva.Descripcion);
                 }
-                
-                negocio.agregar(articulo);
-                MessageBox.Show("Agregado exitosamente");
-                actualizarDGV = true;
+
+                if (articulo.Id == 0)
+                {
+                    negocio.agregar(articulo);
+                    MessageBox.Show("Agregado exitosamente");
+                    actualizarDGV = true;
+                }
+                else
+                {
+                    negocio.modificar(articulo);
+                    MessageBox.Show("Modificado exitosamente");
+                    actualizarDGV = true;
+                }
                 Close();
             }
             catch (Exception ex)
