@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using Dominio;
 using Conexion_Base_de_datos;
 using Helper;
+//using System.Reflection;
+
+
+
 
 
 namespace Negocio
@@ -14,10 +18,11 @@ namespace Negocio
     {
         private AccesoDatos datos = new AccesoDatos();
         HelpClass help = new HelpClass();
+        
         public List<Articulo> listar()
         {
             List<Articulo> lista = new List<Articulo>();
-            
+
             try
             {
                 datos.setearConsulta("select A.Id, Codigo, Nombre, A.Descripcion, ImagenUrl, Precio, M.Descripcion Marca, C.Descripcion Categoria, A.IdMarca,  A.IdCategoria from ARTICULOS A, MARCAS M, CATEGORIAS C  where A.IdMarca = M.Id and A.IdCategoria = C.Id");
@@ -26,6 +31,7 @@ namespace Negocio
                 while (datos.Lector.Read())
                 {
                     Articulo aux = new Articulo();
+
                     
                     aux.Id = (int)datos.Lector["Id"];
 
@@ -57,10 +63,24 @@ namespace Negocio
                     aux.CategoriaArticulo.Id = (int)datos.Lector["IdCategoria"];
 
 
-
-
                     lista.Add(aux);
                 }
+
+                //foreach (Articulo item in lista)
+                //{
+                //   Type tipo = item.GetType();
+
+                //    PropertyInfo[] listaPropiedades = tipo.GetProperties();
+                //    foreach (PropertyInfo propiedad in listaPropiedades)
+                //    {
+                //        Object I = propiedad.GetValue(item);
+
+                //      if (I == null && propiedad.PropertyType.Equals(typeof(string)))
+                //        {
+                //           propiedad.SetValue(item, "");
+                //       }
+                //    }
+                //}
 
                 return lista;
             }
@@ -75,7 +95,27 @@ namespace Negocio
             }
         }
 
-    public void agregar(Articulo nuevo)
+        public void eliminarFisico(Articulo seleccionado)
+        {
+            try
+            {
+                datos.setearConsulta("delete from ARTICULOS where id = @id");
+                datos.setearParametro("@id", seleccionado.Id);
+                datos.ejecutarAccion();
+                
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void agregar(Articulo nuevo)
         {
             try
             {
@@ -98,6 +138,28 @@ namespace Negocio
             finally
             {
                 datos.cerrarConexion();
+            }
+        }
+
+        public void eliminarVarios(List<Articulo> lista)
+        {
+            foreach (Articulo articulo in lista)
+            {
+                try
+                {
+                    datos.setearConsulta();
+                    datos.setearParametro("@id", articulo.Id);
+                    datos.ejecutarAccion();
+                }
+                catch (Exception ex )
+                {
+
+                    throw ex;
+                }
+                finally
+                {
+                    datos.cerrarConexion();
+                }
             }
         }
 

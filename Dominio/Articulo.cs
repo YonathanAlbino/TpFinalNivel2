@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,5 +44,10 @@ namespace Dominio
         
         public string ImagenUrl { get; set; }
         public decimal Precio { get; set; }
+
+        public PropertyInfo[] GetProperties()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

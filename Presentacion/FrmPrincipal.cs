@@ -20,6 +20,7 @@ namespace Presentacion
             InitializeComponent();
         }
         HelpClass help = new HelpClass();
+        private bool dgvArticulo = false;
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
@@ -34,6 +35,12 @@ namespace Presentacion
             Articulo seleccionado;
             try
             {
+               if(dgvArticulos.SelectedRows.Count > 1)
+                {
+                    MessageBox.Show("Solo se permite modificar un articulo a la vez");
+                    return;
+                }
+                
                 seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
                 FrmAltaArticulo ventana = new FrmAltaArticulo("Modificar el articulo", seleccionado);
                 ventana.ShowDialog();
@@ -74,7 +81,10 @@ namespace Presentacion
                 ArticuloNegocio negocio = new ArticuloNegocio();
                 lista = negocio.listar();
                 dgvArticulos.DataSource = lista;
-                help.cargarImagen(pcbArticulos, lista[0].ImagenUrl);
+
+                if(lista.Count > 0)
+                    help.cargarImagen(pcbArticulos, lista[0].ImagenUrl);
+                
                 dgvArticulos.Columns["Id"].Visible = false;
                 dgvArticulos.Columns["ImagenUrl"].Visible = false;
                  
@@ -84,6 +94,72 @@ namespace Presentacion
 
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //    Articulo seleccionado;
+        //    ArticuloNegocio negocio = new ArticuloNegocio();
+        //    try
+        //    {
+        //        if(help.validarSiNo("¿Desea eliminar este Articulo?", "Eliminando"))
+        //        {
+        //            seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+        //            negocio.eliminarFisico(seleccionado);
+        //            dgvArticulo = true;
+        //        }
+        //        if (dgvArticulo)
+        //            cargar();
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        MessageBox.Show(ex.ToString());
+        //    }
+        //}
+
+        private void EliminarVarios_Click(object sender, EventArgs e)
+        {
+            List <Articulo> lista = new List<Articulo>();
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            string elLos = "el", articulo = "articulo";
+            try
+            {
+                if (dgvArticulos.SelectedRows.Count > 1)
+                {
+                    elLos = "los";
+                    articulo = "articulos";
+                }
+                    
+
+               if(help.validarSiNo("¿Desea eliminar "+elLos+ " "+ articulo+"?", "Eliminando"))
+                {
+                    foreach (DataGridViewRow row in dgvArticulos.SelectedRows)
+                    {
+                        Articulo aux;
+                        aux = (Articulo)row.DataBoundItem;
+                        lista.Add(aux);
+                        dgvArticulo = true;
+                    }
+                    negocio.eliminarVarios(lista);
+                }
+
+                if (dgvArticulo)
+                    cargar();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            if (dgvArticulos.MultiSelect == true)
+                dgvArticulos.MultiSelect = false;
+            else
+                dgvArticulos.MultiSelect = true;
         }
     }
 }

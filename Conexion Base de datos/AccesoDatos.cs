@@ -70,6 +70,13 @@ namespace Conexion_Base_de_datos
             conexion.Close();
         }
 
+        public void setearConsulta()
+        {
+            this.comando = new SqlCommand();
+            comando.CommandType = System.Data.CommandType.Text;
+            comando.CommandText = "delete from ARTICULOS where id = @id";
+        }
+
 
     }
 }
