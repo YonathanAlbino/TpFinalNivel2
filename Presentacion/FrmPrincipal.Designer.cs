@@ -34,6 +34,8 @@
             this.dgvArticulos = new System.Windows.Forms.DataGridView();
             this.pcbArticulos = new System.Windows.Forms.PictureBox();
             this.EliminarVarios = new System.Windows.Forms.Button();
+            this.txtFiltroRapido = new System.Windows.Forms.TextBox();
+            this.lblBuscar = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcbArticulos)).BeginInit();
             this.SuspendLayout();
@@ -98,11 +100,30 @@
             this.EliminarVarios.UseVisualStyleBackColor = true;
             this.EliminarVarios.Click += new System.EventHandler(this.EliminarVarios_Click);
             // 
+            // txtFiltroRapido
+            // 
+            this.txtFiltroRapido.Location = new System.Drawing.Point(23, 36);
+            this.txtFiltroRapido.Name = "txtFiltroRapido";
+            this.txtFiltroRapido.Size = new System.Drawing.Size(100, 20);
+            this.txtFiltroRapido.TabIndex = 7;
+            this.txtFiltroRapido.TextChanged += new System.EventHandler(this.txtFiltroRapido_TextChanged);
+            // 
+            // lblBuscar
+            // 
+            this.lblBuscar.AutoSize = true;
+            this.lblBuscar.Location = new System.Drawing.Point(20, 20);
+            this.lblBuscar.Name = "lblBuscar";
+            this.lblBuscar.Size = new System.Drawing.Size(40, 13);
+            this.lblBuscar.TabIndex = 8;
+            this.lblBuscar.Text = "Buscar";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1037, 452);
+            this.Controls.Add(this.lblBuscar);
+            this.Controls.Add(this.txtFiltroRapido);
             this.Controls.Add(this.EliminarVarios);
             this.Controls.Add(this.pcbArticulos);
             this.Controls.Add(this.dgvArticulos);
@@ -116,6 +137,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcbArticulos)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -127,6 +149,8 @@
         private System.Windows.Forms.DataGridView dgvArticulos;
         private System.Windows.Forms.PictureBox pcbArticulos;
         private System.Windows.Forms.Button EliminarVarios;
+        private System.Windows.Forms.TextBox txtFiltroRapido;
+        private System.Windows.Forms.Label lblBuscar;
     }
 }
 

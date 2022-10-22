@@ -21,6 +21,7 @@ namespace Presentacion
         }
         HelpClass help = new HelpClass();
         private bool dgvArticulo = false;
+        List<Articulo> lista;
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
@@ -77,7 +78,6 @@ namespace Presentacion
         {
             try
             {
-                List<Articulo> lista = new List<Articulo>();
                 ArticuloNegocio negocio = new ArticuloNegocio();
                 lista = negocio.listar();
                 dgvArticulos.DataSource = lista;
@@ -125,12 +125,12 @@ namespace Presentacion
             string elLos = "el", articulo = "articulo";
             try
             {
-                if (dgvArticulos.SelectedRows.Count > 1)
+                int contadorArticulos = dgvArticulos.SelectedRows.Count;
+                if (contadorArticulos > 1)
                 {
-                    elLos = "los";
+                    elLos = "los" + " " + contadorArticulos;
                     articulo = "articulos";
                 }
-                    
 
                if(help.validarSiNo("¿Desea eliminar "+elLos+ " "+ articulo+"?", "Eliminando"))
                 {
@@ -160,6 +160,39 @@ namespace Presentacion
                 dgvArticulos.MultiSelect = false;
             else
                 dgvArticulos.MultiSelect = true;
+        }
+
+        private void txtFiltroRapido_TextChanged(object sender, EventArgs e)
+        {
+            List<Articulo> listaFiltrada;
+            try
+            {
+                string filtro = txtFiltroRapido.Text;
+
+                if(filtro.Length >=2)
+                {
+                    listaFiltrada = lista.FindAll(x => x.MarcaArticulo.Descripcion.ToUpper().Contains(filtro.ToUpper()) || x.CategoriaArticulo.Descripcion.ToUpper().Contains(filtro.ToUpper()) || x.Nombre.ToUpper().Contains(filtro.ToUpper()));
+                }
+                else
+                {
+                    listaFiltrada = lista;
+                }
+                dgvArticulos.DataSource = null;
+                dgvArticulos.DataSource = listaFiltrada;
+
+                if (lista.Count > 0)
+                    help.cargarImagen(pcbArticulos, lista[0].ImagenUrl);
+
+                dgvArticulos.Columns["Id"].Visible = false;
+                dgvArticulos.Columns["ImagenUrl"].Visible = false;
+
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }
