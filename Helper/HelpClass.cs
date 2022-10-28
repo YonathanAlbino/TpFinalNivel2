@@ -88,5 +88,25 @@ namespace Helper
                 throw ex;
             }
         }
+        public bool soloNumeros(string cadena)
+        {
+            foreach (char item in cadena)
+            {
+                if (!(char.IsNumber(item)))
+                {
+                    return false;
+                }
+            }
+            return true;
+
+        }
+        public bool ValidarVacio(string control)
+        {
+            bool aux = false;
+
+            if (string.IsNullOrEmpty(control))
+                aux = true;
+            return aux;
+        }
     }
 }

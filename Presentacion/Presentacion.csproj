@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,6 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Detalle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Detalle.Designer.cs">
+      <DependentUpon>Detalle.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmAltaArticulo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +67,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Detalle.resx">
+      <DependentUpon>Detalle.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmAltaArticulo.resx">
       <DependentUpon>FrmAltaArticulo.cs</DependentUpon>
     </EmbeddedResource>

@@ -49,6 +49,7 @@
             this.btnEliminarCategoria = new System.Windows.Forms.Button();
             this.btnEliminarMarca = new System.Windows.Forms.Button();
             this.pcbAltaArticulo = new System.Windows.Forms.PictureBox();
+            this.btnAgregarImagenLocal = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pcbAltaArticulo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -236,11 +237,22 @@
             this.pcbAltaArticulo.TabIndex = 22;
             this.pcbAltaArticulo.TabStop = false;
             // 
+            // btnAgregarImagenLocal
+            // 
+            this.btnAgregarImagenLocal.Location = new System.Drawing.Point(306, 271);
+            this.btnAgregarImagenLocal.Name = "btnAgregarImagenLocal";
+            this.btnAgregarImagenLocal.Size = new System.Drawing.Size(24, 23);
+            this.btnAgregarImagenLocal.TabIndex = 23;
+            this.btnAgregarImagenLocal.Text = "+";
+            this.btnAgregarImagenLocal.UseVisualStyleBackColor = true;
+            this.btnAgregarImagenLocal.Click += new System.EventHandler(this.btnAgregarImagenLocal_Click);
+            // 
             // FrmAltaArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(652, 520);
+            this.Controls.Add(this.btnAgregarImagenLocal);
             this.Controls.Add(this.pcbAltaArticulo);
             this.Controls.Add(this.btnEliminarMarca);
             this.Controls.Add(this.btnEliminarCategoria);
@@ -295,5 +307,6 @@
         private System.Windows.Forms.Button btnEliminarCategoria;
         private System.Windows.Forms.Button btnEliminarMarca;
         private System.Windows.Forms.PictureBox pcbAltaArticulo;
+        private System.Windows.Forms.Button btnAgregarImagenLocal;
     }
 }

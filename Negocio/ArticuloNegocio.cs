@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dominio;
 using Conexion_Base_de_datos;
 using Helper;
+using System.Windows.Forms;
 //using System.Reflection;
 
 
@@ -19,6 +20,7 @@ namespace Negocio
         private AccesoDatos datos = new AccesoDatos();
         HelpClass help = new HelpClass();
         
+
         public List<Articulo> listar()
         {
             List<Articulo> lista = new List<Articulo>();
@@ -30,40 +32,7 @@ namespace Negocio
 
                 while (datos.Lector.Read())
                 {
-                    Articulo aux = new Articulo();
-
-                    
-                    aux.Id = (int)datos.Lector["Id"];
-
-                    if(!(help.validarColumnaNula(datos.Lector, "Codigo")))
-                        aux.Codigo = (string)datos.Lector["Codigo"];
-
-                    if(!(help.validarColumnaNula(datos.Lector, "Nombre")))
-                        aux.Nombre = (string)datos.Lector["Nombre"];
-
-                    if (!(help.validarColumnaNula(datos.Lector, "Descripcion")))
-                        aux.Descripcion = (string)datos.Lector["Descripcion"];
-
-                    if (!(help.validarColumnaNula(datos.Lector, "ImagenUrl")))
-                        aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
-
-                    if (!(help.validarColumnaNula(datos.Lector, "Precio")))
-                        aux.Precio = (decimal)datos.Lector["Precio"];
-
-                    aux.MarcaArticulo = new Marca();
-
-                    if (!(help.validarColumnaNula(datos.Lector, "Marca")))
-                        aux.MarcaArticulo.Descripcion = (string)datos.Lector["Marca"];
-                    aux.MarcaArticulo.Id = (int)datos.Lector["IdMarca"];
-
-                    aux.CategoriaArticulo = new Categoria();
-
-                    if (!(help.validarColumnaNula(datos.Lector, "Categoria")))
-                        aux.CategoriaArticulo.Descripcion = (string)datos.Lector["Categoria"];
-                    aux.CategoriaArticulo.Id = (int)datos.Lector["IdCategoria"];
-
-
-                    lista.Add(aux);
+                    lista.Add(SetearDatos());
                 }
 
                 //foreach (Articulo item in lista)
@@ -93,6 +62,44 @@ namespace Negocio
             {
                 datos.cerrarConexion();
             }
+        }
+
+        public Articulo SetearDatos()
+        {
+            Articulo aux = new Articulo();
+
+
+            aux.Id = (int)datos.Lector["Id"];
+
+            if (!(help.validarColumnaNula(datos.Lector, "Codigo")))
+                aux.Codigo = (string)datos.Lector["Codigo"];
+
+            if (!(help.validarColumnaNula(datos.Lector, "Nombre")))
+                aux.Nombre = (string)datos.Lector["Nombre"];
+
+            if (!(help.validarColumnaNula(datos.Lector, "Descripcion")))
+                aux.Descripcion = (string)datos.Lector["Descripcion"];
+
+            if (!(help.validarColumnaNula(datos.Lector, "ImagenUrl")))
+                aux.ImagenUrl = (string)datos.Lector["ImagenUrl"];
+
+            if (!(help.validarColumnaNula(datos.Lector, "Precio")))
+                aux.Precio = (decimal)datos.Lector["Precio"];
+
+            aux.MarcaArticulo = new Marca();
+
+            if (!(help.validarColumnaNula(datos.Lector, "Marca")))
+                aux.MarcaArticulo.Descripcion = (string)datos.Lector["Marca"];
+            aux.MarcaArticulo.Id = (int)datos.Lector["IdMarca"];
+
+            aux.CategoriaArticulo = new Categoria();
+
+            if (!(help.validarColumnaNula(datos.Lector, "Categoria")))
+                aux.CategoriaArticulo.Descripcion = (string)datos.Lector["Categoria"];
+            aux.CategoriaArticulo.Id = (int)datos.Lector["IdCategoria"];
+
+            return aux;
+
         }
 
         public void eliminarFisico(Articulo seleccionado)
@@ -181,12 +188,79 @@ namespace Negocio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
             {
                 datos.cerrarConexion();
+            }
+        }
+
+        public List<Articulo> FiltroAvanzado(string campo, string criterio, string filtro)
+        {
+            List<Articulo> lista = new List<Articulo>();
+            try
+            {
+                string consulta = "select A.Id, Codigo, Nombre, A.Descripcion, ImagenUrl, Precio, M.Descripcion Marca, C.Descripcion Categoria, A.IdMarca,  A.IdCategoria from ARTICULOS A, MARCAS M, CATEGORIAS C  where A.IdMarca = M.Id and A.IdCategoria = C.Id And ";
+                if (campo == "Precio")
+                {
+                    switch (criterio)
+                    {
+                        case "Mayor a":
+                            consulta += "Precio >" + filtro;
+                            break;
+                        case "Menor a":
+                            consulta += "Precio <" + filtro;
+                            break;
+                        case "Igual":
+                            consulta += "Precio =" + filtro;
+                            break;
+                    }
+                }
+                else if (campo == "Nombre")
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += "Nombre like '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += "Nombre like '%" + filtro + "'";
+                            break;
+                        case "Contiene":
+                            consulta += "Nombre like '%" + filtro + "%'";
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += " M.Descripcion like '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += " M.Descripcion like '%" + filtro + "'";
+                            break;
+                        case "Contiene":
+                            consulta += " M.Descripcion like '%" + filtro + "%'";
+                            break;
+                    }
+                }
+
+                datos.setearConsulta(consulta);
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    lista.Add(SetearDatos());
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
     }

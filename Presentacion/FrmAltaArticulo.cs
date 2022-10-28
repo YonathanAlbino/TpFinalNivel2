@@ -10,6 +10,9 @@ using System.Windows.Forms;
 using Dominio;
 using Helper;
 using Negocio;
+using System.IO;
+using System.Configuration;
+
 
 
 namespace Presentacion
@@ -21,6 +24,7 @@ namespace Presentacion
             InitializeComponent();
             this.Text = Text;
             this.articulo = articulo;
+            ArchivoEnModificar.FileName = articulo.ImagenUrl;
         }
 
         public FrmAltaArticulo(string Text)
@@ -30,8 +34,11 @@ namespace Presentacion
         }
 
         HelpClass help = new HelpClass();
-        private Articulo articulo = null;
+        private Articulo articulo = null; 
         private bool actualizarDGV = false;
+        private OpenFileDialog archivo = null;
+        private OpenFileDialog ArchivoEnModificar = new OpenFileDialog(); //Se carga al intentar modificar un Articulo
+        string rutaArchivoLocal = ConfigurationManager.AppSettings["Articulo-app"];
 
 
         private void cargar()
@@ -115,12 +122,47 @@ namespace Presentacion
 
                 if (articulo.Id == 0)
                 {
+                    if(archivo != null && !(txtImagen.Text.ToUpper().Contains("HTTP")))
+                    {
+                        if(File.Exists(help.obtenerRuta(rutaArchivoLocal, archivo.SafeFileName))) //Verifica si el archivo ya existe en la carpeta
+                        {
+                            if(help.validarSiNo("El archivo ya existe en la carpeta, ¿Desea sobreescribirlo?", "Imagen local..."))
+                            {
+                                File.Copy(archivo.FileName, rutaArchivoLocal + archivo.SafeFileName, true);
+                            }
+                        }
+                        else
+                        {
+                            File.Copy(archivo.FileName, rutaArchivoLocal + archivo.SafeFileName);
+                        }
+                    }
+
                     negocio.agregar(articulo);
                     MessageBox.Show("Agregado exitosamente");
                     actualizarDGV = true;
+
                 }
                 else
                 {
+                    if (archivo != null && !(txtImagen.Text.ToUpper().Contains("HTTP")))
+                    {
+                        if (ArchivoEnModificar.FileName != archivo.FileName) //Verifica si la imagen cambio al hacer una modificacion
+                        {
+                            if (File.Exists(help.obtenerRuta(rutaArchivoLocal, ArchivoEnModificar.SafeFileName))) //Verifica si la imagen anterior continua en la carpeta local
+                            {
+                                if (help.validarSiNo("¿Desea borrar la imagen anterior?", "Imagen local.."))
+                                {
+                                    File.Delete(help.obtenerRuta(rutaArchivoLocal, ArchivoEnModificar.SafeFileName));
+                                }
+                            }
+                            if (!(File.Exists(help.obtenerRuta(rutaArchivoLocal, archivo.SafeFileName)))) //Verifica si en la carpeta ya hay un archivo igual al que se intenta guardar
+                                File.Copy(archivo.FileName, rutaArchivoLocal + archivo.SafeFileName);
+                            else
+                            {
+                                MessageBox.Show("Ya existe un archivo con el mismo nombre en la carpeta");
+                            }
+                        }
+                    }
                     negocio.modificar(articulo);
                     MessageBox.Show("Modificado exitosamente");
                     actualizarDGV = true;
@@ -129,8 +171,10 @@ namespace Presentacion
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show(ex.ToString());
+                if (ex.GetType() == typeof(System.Data.SqlClient.SqlException))
+                    MessageBox.Show("Uno o mas datos no son permitidos en la base de datos. (Posiblemente la dirección url de la imagen).");
+                else
+                    MessageBox.Show(ex.ToString());
             }
         }
         public bool actualizarDgv()
@@ -235,6 +279,28 @@ namespace Presentacion
             try
             {
                 help.cargarImagen(pcbAltaArticulo, txtImagen.Text);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void btnAgregarImagenLocal_Click(object sender, EventArgs e)
+        {
+            archivo = new OpenFileDialog();
+            try
+            {
+                archivo.Filter = "jpg|*.jpg|png|*.png";
+
+                if(archivo.ShowDialog() == DialogResult.OK)
+                {
+                    txtImagen.Text = archivo.FileName;
+                    help.cargarImagen(pcbAltaArticulo, txtImagen.Text);
+
+                   
+                }
             }
             catch (Exception ex)
             {

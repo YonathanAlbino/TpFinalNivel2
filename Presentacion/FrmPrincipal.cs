@@ -22,6 +22,7 @@ namespace Presentacion
         HelpClass help = new HelpClass();
         private bool dgvArticulo = false;
         List<Articulo> lista;
+        FrmAltaArticulo detalles = new FrmAltaArticulo("Detalles");
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
@@ -63,6 +64,11 @@ namespace Presentacion
         private void Form1_Load(object sender, EventArgs e)
         {
             cargar();
+            cboCampo.Items.Add("Precio");
+            cboCampo.Items.Add("Nombre");
+            cboCampo.Items.Add("Marca");
+            
+
         }
 
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
@@ -80,6 +86,7 @@ namespace Presentacion
             {
                 ArticuloNegocio negocio = new ArticuloNegocio();
                 lista = negocio.listar();
+                
                 dgvArticulos.DataSource = lista;
 
                 if(lista.Count > 0)
@@ -171,7 +178,7 @@ namespace Presentacion
 
                 if(filtro.Length >=2)
                 {
-                    listaFiltrada = lista.FindAll(x => x.MarcaArticulo.Descripcion.ToUpper().Contains(filtro.ToUpper()) || x.CategoriaArticulo.Descripcion.ToUpper().Contains(filtro.ToUpper()) || x.Nombre.ToUpper().Contains(filtro.ToUpper()));
+                    listaFiltrada = lista.FindAll(x => x.MarcaArticulo.Descripcion.ToUpper().Contains(filtro.ToUpper()) || x.CategoriaArticulo.Descripcion.ToUpper().Contains(filtro.ToUpper()) || x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Codigo.ToUpper().Contains(filtro.ToUpper()));
                 }
                 else
                 {
@@ -194,5 +201,98 @@ namespace Presentacion
                 MessageBox.Show(ex.ToString());
             }
         }
+
+        private void lblFiltro_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cboCampo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string opcion = cboCampo.SelectedItem.ToString();
+            if(opcion == "Precio")
+            {
+                cboCriterio.Items.Clear();
+                cboCriterio.Items.Add("Igual");
+                cboCriterio.Items.Add("Menor a");
+                cboCriterio.Items.Add("Mayor a");
+            }
+            else
+            {
+                cboCriterio.Items.Clear();
+                cboCriterio.Items.Add("Comienza con");
+                cboCriterio.Items.Add("Termina con");
+                cboCriterio.Items.Add("Contiene");
+            }
+        }
+        private bool validarFiltro()
+        {
+
+            if (cboCampo.SelectedItem.ToString() == "Precio")
+            {
+                if (help.ValidarVacio(txtFiltro.Text))
+            
+                {
+                    MessageBox.Show("El filtro de busqueda se encuentra vacio");
+                    return true;
+                }
+
+                if (!(help.soloNumeros(txtFiltro.Text)))
+                {
+                    MessageBox.Show("Ingrese solo numeros para busquedas númericas");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            try
+            {
+                if (validarFiltro())
+                    return;
+
+                string campo = cboCampo.SelectedItem.ToString();
+                string criterio = cboCriterio.SelectedItem.ToString();
+                string filtro = txtFiltro.Text;
+                dgvArticulos.DataSource = negocio.FiltroAvanzado(campo, criterio, filtro);
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void dgvArticulos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Articulo seleccionado;
+            
+            try
+            {
+                seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                Detalle detalle = new Detalle(seleccionado);
+                detalle.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+
+        private void dgvArticulos_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            lblDetalle.Visible = false;
+        }
+
+        private void dgvArticulos_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            lblDetalle.Visible = true;
+        }
+
+        
     }
 }
