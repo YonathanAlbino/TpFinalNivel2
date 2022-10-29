@@ -227,11 +227,19 @@ namespace Presentacion
         }
         private bool validarFiltro()
         {
+            List<ComboBox> lista = new List<ComboBox>();
+            lista.Add(cboCampo);
+            lista.Add(cboCriterio);
+
+            if (help.comboBoxVacio(lista))
+            {
+                MessageBox.Show("Uno o mas desplegables se encuentran vacios");
+                return true;
+            }
 
             if (cboCampo.SelectedItem.ToString() == "Precio")
             {
                 if (help.ValidarVacio(txtFiltro.Text))
-            
                 {
                     MessageBox.Show("El filtro de busqueda se encuentra vacio");
                     return true;
@@ -243,6 +251,23 @@ namespace Presentacion
                     return true;
                 }
             }
+            if (cboCampo.SelectedItem.ToString() == "Nombre")
+            {
+                if (!(help.soloLetras(txtFiltro.Text)))
+                {
+                    MessageBox.Show("Ingrese solo letras para busquedas por nombre");
+                    return true;
+                }
+            }
+            if(cboCampo.SelectedItem.ToString() == "Marca")
+            {
+                if (!(help.SoloLetrasONumeros(txtFiltro.Text)))
+                {
+                    MessageBox.Show("Ingrese solo letras o número para filtrar por marca");
+                    return true;
+                }
+            }
+
             return false;
         }
 

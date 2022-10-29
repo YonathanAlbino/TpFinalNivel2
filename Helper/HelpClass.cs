@@ -98,15 +98,53 @@ namespace Helper
                 }
             }
             return true;
+        }
+        public bool SoloLetrasONumeros(string cadena)
+        {
+            foreach (char item in cadena)
+            {
+                if (!(char.IsLetterOrDigit(item)))
+                {
+                    return false;
+                }
+                else if(item.ToString() == "ª" || item.ToString() == "º")
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool soloLetras(string cadena)
+        {
+            foreach (char item in cadena)
+            {
+                if (!(char.IsLetter(item)))
+                {
+                    return false;
+                }
+            }
+            return true;
 
         }
+
         public bool ValidarVacio(string control)
         {
-            bool aux = false;
-
             if (string.IsNullOrEmpty(control))
-                aux = true;
-            return aux;
+               return true;
+            return false;
+        }
+
+        public bool comboBoxVacio(List<ComboBox> lista)
+        {
+            foreach (var item in lista)
+            {
+                if(item.SelectedItem == null)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
