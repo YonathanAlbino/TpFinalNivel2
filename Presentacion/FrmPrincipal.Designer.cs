@@ -43,6 +43,7 @@
             this.txtFiltro = new System.Windows.Forms.TextBox();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.lblDetalle = new System.Windows.Forms.Label();
+            this.btnActualizar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcbArticulos)).BeginInit();
             this.SuspendLayout();
@@ -185,18 +186,29 @@
             // 
             this.lblDetalle.AutoSize = true;
             this.lblDetalle.BackColor = System.Drawing.Color.Lime;
-            this.lblDetalle.Location = new System.Drawing.Point(319, 345);
+            this.lblDetalle.Location = new System.Drawing.Point(421, 345);
             this.lblDetalle.Name = "lblDetalle";
             this.lblDetalle.Size = new System.Drawing.Size(218, 13);
             this.lblDetalle.TabIndex = 16;
             this.lblDetalle.Text = "Haga dolbe clik para ver detalles del artículo";
             this.lblDetalle.Visible = false;
             // 
+            // btnActualizar
+            // 
+            this.btnActualizar.Location = new System.Drawing.Point(322, 340);
+            this.btnActualizar.Name = "btnActualizar";
+            this.btnActualizar.Size = new System.Drawing.Size(79, 23);
+            this.btnActualizar.TabIndex = 17;
+            this.btnActualizar.Text = "Actualizar";
+            this.btnActualizar.UseVisualStyleBackColor = true;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1037, 452);
+            this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.lblDetalle);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.txtFiltro);
@@ -240,6 +252,7 @@
         private System.Windows.Forms.TextBox txtFiltro;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Label lblDetalle;
+        private System.Windows.Forms.Button btnActualizar;
     }
 }
 

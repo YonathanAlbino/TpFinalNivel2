@@ -50,6 +50,8 @@
             this.btnEliminarMarca = new System.Windows.Forms.Button();
             this.pcbAltaArticulo = new System.Windows.Forms.PictureBox();
             this.btnAgregarImagenLocal = new System.Windows.Forms.Button();
+            this.lblCamposVacios = new System.Windows.Forms.Label();
+            this.lblComa = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pcbAltaArticulo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -247,11 +249,35 @@
             this.btnAgregarImagenLocal.UseVisualStyleBackColor = true;
             this.btnAgregarImagenLocal.Click += new System.EventHandler(this.btnAgregarImagenLocal_Click);
             // 
+            // lblCamposVacios
+            // 
+            this.lblCamposVacios.AutoSize = true;
+            this.lblCamposVacios.BackColor = System.Drawing.Color.White;
+            this.lblCamposVacios.ForeColor = System.Drawing.Color.Red;
+            this.lblCamposVacios.Location = new System.Drawing.Point(36, 359);
+            this.lblCamposVacios.Name = "lblCamposVacios";
+            this.lblCamposVacios.Size = new System.Drawing.Size(215, 13);
+            this.lblCamposVacios.TabIndex = 24;
+            this.lblCamposVacios.Text = "Los campos en rojo no pueden estar vacíos";
+            this.lblCamposVacios.Visible = false;
+            // 
+            // lblComa
+            // 
+            this.lblComa.AutoSize = true;
+            this.lblComa.Location = new System.Drawing.Point(155, 341);
+            this.lblComa.Name = "lblComa";
+            this.lblComa.Size = new System.Drawing.Size(187, 13);
+            this.lblComa.TabIndex = 25;
+            this.lblComa.Text = "Utilize una coma para el campo precio";
+            this.lblComa.Visible = false;
+            // 
             // FrmAltaArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(652, 520);
+            this.Controls.Add(this.lblComa);
+            this.Controls.Add(this.lblCamposVacios);
             this.Controls.Add(this.btnAgregarImagenLocal);
             this.Controls.Add(this.pcbAltaArticulo);
             this.Controls.Add(this.btnEliminarMarca);
@@ -308,5 +334,7 @@
         private System.Windows.Forms.Button btnEliminarMarca;
         private System.Windows.Forms.PictureBox pcbAltaArticulo;
         private System.Windows.Forms.Button btnAgregarImagenLocal;
+        private System.Windows.Forms.Label lblCamposVacios;
+        private System.Windows.Forms.Label lblComa;
     }
 }

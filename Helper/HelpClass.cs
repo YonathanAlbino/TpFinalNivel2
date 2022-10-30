@@ -39,10 +39,18 @@ namespace Helper
         {
             try
             {
-                if (lector[columna] is DBNull)
-                    return true;
-                else
-                    return false;
+                try
+                {
+                    if (lector[columna] is DBNull)
+                        return true;
+                    else
+                        return false;
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
             }
             catch (Exception ex)
             {
@@ -52,11 +60,19 @@ namespace Helper
         }
         public bool validarSiNo(string texto, string titulo)
         {
-            DialogResult respuesta = MessageBox.Show(texto, titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (respuesta == DialogResult.Yes)
-                return true;
-            else
-                return false;
+            try
+            {
+                DialogResult respuesta = MessageBox.Show(texto, titulo, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (respuesta == DialogResult.Yes)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public bool existeComboBox(ComboBox comboBox, string nuevaInclusion)
         {
@@ -90,61 +106,145 @@ namespace Helper
         }
         public bool soloNumeros(string cadena)
         {
-            foreach (char item in cadena)
+            try
             {
-                if (!(char.IsNumber(item)))
+                foreach (char item in cadena)
                 {
-                    return false;
+                    if (!(char.IsNumber(item)))
+                    {
+                            return false;
+                    }
                 }
+                return true;
             }
-            return true;
+            catch (Exception ex)  
+            {
+
+                throw ex;
+            }
+        }
+        public bool soloNumerosInsertPrecio(string cadena)
+        {
+            try
+            {
+                int i = 0;
+                foreach (char item in cadena)
+                {
+                    if(cadena.Count() == 1 && cadena[0] == ',')
+                        return false;
+
+                    if (!(char.IsNumber(item)))
+                    {
+                        if (item == ',')
+                            i++;
+                        if (i == 2)
+                            return false;
+                        if (!(item == ','))
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         public bool SoloLetrasONumeros(string cadena)
         {
-            foreach (char item in cadena)
+            try
             {
-                if (!(char.IsLetterOrDigit(item)))
+                foreach (char item in cadena)
                 {
-                    return false;
+                    if (!(char.IsLetterOrDigit(item)))
+                    {
+                        return false;
+                    }
+                    else if (item.ToString() == "ª" || item.ToString() == "º")
+                    {
+                        return false;
+                    }
                 }
-                else if(item.ToString() == "ª" || item.ToString() == "º")
-                {
-                    return false;
-                }
+                return true;
             }
-            return true;
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         public bool soloLetras(string cadena)
         {
-            foreach (char item in cadena)
+            try
             {
-                if (!(char.IsLetter(item)))
+                foreach (char item in cadena)
                 {
-                    return false;
+                    if (!(char.IsLetter(item)))
+                    {
+                        return false;
+                    }
                 }
+                return true;
             }
-            return true;
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
 
         }
 
         public bool ValidarVacio(string control)
         {
-            if (string.IsNullOrEmpty(control))
-               return true;
-            return false;
+            try
+            {
+                if (string.IsNullOrEmpty(control))
+                    return true;
+                return false;
+            }
+            catch (Exception ex) 
+            {
+
+                throw ex;
+            }
         }
 
         public bool comboBoxVacio(List<ComboBox> lista)
         {
-            foreach (var item in lista)
+            try
             {
-                if(item.SelectedItem == null)
+                foreach (var item in lista)
                 {
-                    return true;
+                    if (item.SelectedItem == null)
+                    {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public string reemplazarComa(string cadena)
+        {
+            try
+            {
+                cadena = cadena.Replace(",", ".");
+                return cadena;
+               
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

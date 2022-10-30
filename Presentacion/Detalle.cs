@@ -39,7 +39,7 @@ namespace Presentacion
                 listBox1.Items.Add("Descripción:" + "  " + articulo.Descripcion);
                 listBox1.Items.Add("Marca:" + "  " + articulo.MarcaArticulo.Descripcion);
                 listBox1.Items.Add("Categoría:" + "  " + articulo.CategoriaArticulo.Descripcion);
-                listBox1.Items.Add("Precio:" + "  " + articulo.Precio);
+                listBox1.Items.Add("Precio:" + "  " + articulo.Precio.ToString("0.00"));
                 listBox1.Items.Add("Url Imagen: " + " " + articulo.ImagenUrl);
 
             }

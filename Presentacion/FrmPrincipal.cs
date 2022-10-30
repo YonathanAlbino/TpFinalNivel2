@@ -42,12 +42,15 @@ namespace Presentacion
                     MessageBox.Show("Solo se permite modificar un articulo a la vez");
                     return;
                 }
-                
-                seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-                FrmAltaArticulo ventana = new FrmAltaArticulo("Modificar el articulo", seleccionado);
-                ventana.ShowDialog();
-                if (ventana.actualizarDgv())
-                    cargar();
+
+                if (dgvArticulos.CurrentRow.DataBoundItem != null)
+                {
+                    seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                    FrmAltaArticulo ventana = new FrmAltaArticulo("Modificar el articulo", seleccionado);
+                    ventana.ShowDialog();
+                    if (ventana.actualizarDgv())
+                        cargar();
+                }
             }
             catch (Exception ex)
             {
@@ -94,7 +97,7 @@ namespace Presentacion
                 
                 dgvArticulos.Columns["Id"].Visible = false;
                 dgvArticulos.Columns["ImagenUrl"].Visible = false;
-                 
+                dgvArticulos.Columns["Precio"].DefaultCellStyle.Format = "0.00";
             }
             catch (Exception ex)
             {
@@ -255,7 +258,7 @@ namespace Presentacion
             {
                 if (!(help.soloLetras(txtFiltro.Text)))
                 {
-                    MessageBox.Show("Ingrese solo letras para busquedas por nombre");
+                    MessageBox.Show("Ingrese letras para busquedas por nombre");
                     return true;
                 }
             }
@@ -263,7 +266,7 @@ namespace Presentacion
             {
                 if (!(help.SoloLetrasONumeros(txtFiltro.Text)))
                 {
-                    MessageBox.Show("Ingrese solo letras o número para filtrar por marca");
+                    MessageBox.Show("Ingrese letras o números para busquedas por marca");
                     return true;
                 }
             }
@@ -318,6 +321,17 @@ namespace Presentacion
             lblDetalle.Visible = true;
         }
 
-        
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                cargar();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+        }
     }
 }

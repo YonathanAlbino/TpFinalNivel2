@@ -62,7 +62,7 @@ namespace Presentacion
                     txtNombre.Text = articulo.Nombre;
                     txtDescripcion.Text = articulo.Descripcion;
                     txtImagen.Text = articulo.ImagenUrl;
-                    txtPrecio.Text = articulo.Precio.ToString();
+                    txtPrecio.Text = articulo.Precio.ToString("0.00");
                     cboMarca.SelectedValue = articulo.MarcaArticulo.Id;
                     cboCategoria.SelectedValue = articulo.CategoriaArticulo.Id;
                 }
@@ -83,11 +83,58 @@ namespace Presentacion
             Close();
         }
 
+       private bool validarAlta()
+        {
+            try
+            {
+               List<TextBox> lista = new List<TextBox>();
+                lista.Add(txtCodigoArt);
+                lista.Add(txtNombre);
+                lista.Add(txtPrecio);
+
+                foreach (var item in lista)
+                {
+                    if (help.ValidarVacio(item.Text))
+                    {
+                        item.BackColor = Color.Red;
+                        lblCamposVacios.Visible = true;
+                        return true;
+                    }
+                    else
+                    {
+                        item.BackColor = Color.White;
+                        lblCamposVacios.Visible = false;
+                    }
+                }
+                if (txtPrecio.Text.Contains("."))
+                {
+                    lblComa.Visible = true;
+                    
+                }
+
+                    if (!(help.soloNumerosInsertPrecio(txtPrecio.Text)))
+                    {
+                        MessageBox.Show("Formato incorrecto para el campo precio");
+                        return true;
+                    }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
             try
             {
+                if (validarAlta())
+                    return;
+
+                
                 if (articulo == null)
                     articulo = new Articulo();
                 articulo.Codigo = txtCodigoArt.Text;
@@ -214,7 +261,7 @@ namespace Presentacion
             MarcaNegocio negocio = new MarcaNegocio();
             try
             {
-                if(help.validarSiNo("¿Desea eliminar esta marca?", "Eliminando.."))
+                if(help.validarSiNo("También se eliminaran los registros asociados a esta marca. ¿Desea continuar?", "Eliminando.."))
                 {
                     seleccionada = (Marca)cboMarca.SelectedItem;
                     negocio.eliminarMarca(seleccionada);
@@ -259,7 +306,7 @@ namespace Presentacion
             CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
             try
             {
-               if(help.validarSiNo("¿Desea eliminar esta categoria?", "Eliminando"))
+               if(help.validarSiNo("También se eliminaran los registros asociados a esta categoría. ¿Desea continuar?", "Eliminando"))
                 {
                     seleccionada = (Categoria)cboCategoria.SelectedItem;
                     categoriaNegocio.eliminarCategoria(seleccionada);
