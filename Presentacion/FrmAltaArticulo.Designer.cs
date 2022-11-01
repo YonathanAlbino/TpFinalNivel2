@@ -52,6 +52,9 @@
             this.btnAgregarImagenLocal = new System.Windows.Forms.Button();
             this.lblCamposVacios = new System.Windows.Forms.Label();
             this.lblComa = new System.Windows.Forms.Label();
+            this.lblVacioCboMarca = new System.Windows.Forms.Label();
+            this.lblVacioCboCategoria = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pcbAltaArticulo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -138,7 +141,7 @@
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(39, 429);
+            this.btnAceptar.Location = new System.Drawing.Point(39, 403);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(69, 21);
             this.btnAceptar.TabIndex = 7;
@@ -148,7 +151,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(179, 429);
+            this.btnCancelar.Location = new System.Drawing.Point(179, 403);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(69, 21);
             this.btnCancelar.TabIndex = 8;
@@ -192,7 +195,7 @@
             // 
             // btbAgregarMarca
             // 
-            this.btbAgregarMarca.Location = new System.Drawing.Point(306, 184);
+            this.btbAgregarMarca.Location = new System.Drawing.Point(315, 184);
             this.btbAgregarMarca.Name = "btbAgregarMarca";
             this.btbAgregarMarca.Size = new System.Drawing.Size(24, 23);
             this.btbAgregarMarca.TabIndex = 16;
@@ -202,7 +205,7 @@
             // 
             // btnAgregarCategoria
             // 
-            this.btnAgregarCategoria.Location = new System.Drawing.Point(306, 229);
+            this.btnAgregarCategoria.Location = new System.Drawing.Point(315, 229);
             this.btnAgregarCategoria.Name = "btnAgregarCategoria";
             this.btnAgregarCategoria.Size = new System.Drawing.Size(24, 23);
             this.btnAgregarCategoria.TabIndex = 17;
@@ -212,7 +215,7 @@
             // 
             // btnEliminarCategoria
             // 
-            this.btnEliminarCategoria.Location = new System.Drawing.Point(336, 229);
+            this.btnEliminarCategoria.Location = new System.Drawing.Point(345, 229);
             this.btnEliminarCategoria.Name = "btnEliminarCategoria";
             this.btnEliminarCategoria.Size = new System.Drawing.Size(24, 23);
             this.btnEliminarCategoria.TabIndex = 18;
@@ -222,7 +225,7 @@
             // 
             // btnEliminarMarca
             // 
-            this.btnEliminarMarca.Location = new System.Drawing.Point(336, 184);
+            this.btnEliminarMarca.Location = new System.Drawing.Point(345, 184);
             this.btnEliminarMarca.Name = "btnEliminarMarca";
             this.btnEliminarMarca.Size = new System.Drawing.Size(24, 23);
             this.btnEliminarMarca.TabIndex = 19;
@@ -232,7 +235,7 @@
             // 
             // pcbAltaArticulo
             // 
-            this.pcbAltaArticulo.Location = new System.Drawing.Point(366, 52);
+            this.pcbAltaArticulo.Location = new System.Drawing.Point(390, 24);
             this.pcbAltaArticulo.Name = "pcbAltaArticulo";
             this.pcbAltaArticulo.Size = new System.Drawing.Size(250, 330);
             this.pcbAltaArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -241,7 +244,7 @@
             // 
             // btnAgregarImagenLocal
             // 
-            this.btnAgregarImagenLocal.Location = new System.Drawing.Point(306, 271);
+            this.btnAgregarImagenLocal.Location = new System.Drawing.Point(315, 271);
             this.btnAgregarImagenLocal.Name = "btnAgregarImagenLocal";
             this.btnAgregarImagenLocal.Size = new System.Drawing.Size(24, 23);
             this.btnAgregarImagenLocal.TabIndex = 23;
@@ -266,16 +269,51 @@
             this.lblComa.AutoSize = true;
             this.lblComa.Location = new System.Drawing.Point(155, 341);
             this.lblComa.Name = "lblComa";
-            this.lblComa.Size = new System.Drawing.Size(187, 13);
+            this.lblComa.Size = new System.Drawing.Size(188, 13);
             this.lblComa.TabIndex = 25;
-            this.lblComa.Text = "Utilize una coma para el campo precio";
+            this.lblComa.Text = "Utilice una coma para el campo precio";
             this.lblComa.Visible = false;
+            // 
+            // lblVacioCboMarca
+            // 
+            this.lblVacioCboMarca.AutoSize = true;
+            this.lblVacioCboMarca.ForeColor = System.Drawing.Color.Red;
+            this.lblVacioCboMarca.Location = new System.Drawing.Point(285, 189);
+            this.lblVacioCboMarca.Name = "lblVacioCboMarca";
+            this.lblVacioCboMarca.Size = new System.Drawing.Size(14, 13);
+            this.lblVacioCboMarca.TabIndex = 26;
+            this.lblVacioCboMarca.Text = "X";
+            this.lblVacioCboMarca.Visible = false;
+            // 
+            // lblVacioCboCategoria
+            // 
+            this.lblVacioCboCategoria.AutoSize = true;
+            this.lblVacioCboCategoria.ForeColor = System.Drawing.Color.Red;
+            this.lblVacioCboCategoria.Location = new System.Drawing.Point(285, 232);
+            this.lblVacioCboCategoria.Name = "lblVacioCboCategoria";
+            this.lblVacioCboCategoria.Size = new System.Drawing.Size(14, 13);
+            this.lblVacioCboCategoria.TabIndex = 27;
+            this.lblVacioCboCategoria.Text = "X";
+            this.lblVacioCboCategoria.Visible = false;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(318, 130);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(24, 23);
+            this.button1.TabIndex = 28;
+            this.button1.Text = "+";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // FrmAltaArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(652, 520);
+            this.ClientSize = new System.Drawing.Size(662, 438);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.lblVacioCboCategoria);
+            this.Controls.Add(this.lblVacioCboMarca);
             this.Controls.Add(this.lblComa);
             this.Controls.Add(this.lblCamposVacios);
             this.Controls.Add(this.btnAgregarImagenLocal);
@@ -300,6 +338,9 @@
             this.Controls.Add(this.lblDescripcion);
             this.Controls.Add(this.lblNombre);
             this.Controls.Add(this.lblCodigoArticulo);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(678, 477);
+            this.MinimumSize = new System.Drawing.Size(678, 477);
             this.Name = "FrmAltaArticulo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form2";
@@ -336,5 +377,8 @@
         private System.Windows.Forms.Button btnAgregarImagenLocal;
         private System.Windows.Forms.Label lblCamposVacios;
         private System.Windows.Forms.Label lblComa;
+        private System.Windows.Forms.Label lblVacioCboMarca;
+        private System.Windows.Forms.Label lblVacioCboCategoria;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using Dominio;
 
 
+
 namespace Helper
 {
     public class HelpClass
@@ -176,7 +177,6 @@ namespace Helper
                 throw ex;
             }
         }
-
         public bool soloLetras(string cadena)
         {
             try
@@ -197,7 +197,6 @@ namespace Helper
             }
 
         }
-
         public bool ValidarVacio(string control)
         {
             try
@@ -212,7 +211,6 @@ namespace Helper
                 throw ex;
             }
         }
-
         public bool comboBoxVacio(List<ComboBox> lista)
         {
             try
@@ -245,6 +243,42 @@ namespace Helper
 
                 throw ex;
             }
+        }
+        public List<OpenFileDialog> listadoImagenesArticulos(List<Articulo> listaArt)
+        {
+            List<OpenFileDialog> lista = new List<OpenFileDialog>();
+            //List<Articulo> listaArt = new List<Articulo>();
+            //ArticuloNegocio negocio = new ArticuloNegocio();
+            try
+            {
+                //listaArt = negocio.listar();
+
+                foreach (var item in listaArt)
+                {
+                    OpenFileDialog archivo = new OpenFileDialog();
+                    archivo.FileName = item.ImagenUrl;
+                    lista.Add(archivo);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public bool BuscarImagenesCompartidas(List<OpenFileDialog> lista, OpenFileDialog ArchivoEnModificar)
+        {
+            int aux = 0;
+            foreach (var item in lista)
+            {
+                if (item.SafeFileName == ArchivoEnModificar.SafeFileName)
+                    aux++;
+            }
+            if(aux == 1)
+                return false;
+            else
+                return true;
         }
     }
 }

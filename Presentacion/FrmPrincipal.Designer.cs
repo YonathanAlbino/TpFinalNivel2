@@ -84,7 +84,7 @@
             // 
             // pcbArticulos
             // 
-            this.pcbArticulos.Location = new System.Drawing.Point(713, 62);
+            this.pcbArticulos.Location = new System.Drawing.Point(708, 62);
             this.pcbArticulos.Name = "pcbArticulos";
             this.pcbArticulos.Size = new System.Drawing.Size(270, 262);
             this.pcbArticulos.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -207,7 +207,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1037, 452);
+            this.ClientSize = new System.Drawing.Size(1024, 429);
             this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.lblDetalle);
             this.Controls.Add(this.btnBuscar);
@@ -224,6 +224,9 @@
             this.Controls.Add(this.dgvArticulos);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.btnAgregar);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(1040, 468);
+            this.MinimumSize = new System.Drawing.Size(1040, 468);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gestor de articulos";

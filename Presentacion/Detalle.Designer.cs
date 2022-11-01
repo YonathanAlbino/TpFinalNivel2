@@ -61,6 +61,9 @@
             this.ClientSize = new System.Drawing.Size(309, 393);
             this.Controls.Add(this.txtDetalle);
             this.Controls.Add(this.listBox1);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(325, 432);
+            this.MinimumSize = new System.Drawing.Size(325, 432);
             this.Name = "Detalle";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Detalle";

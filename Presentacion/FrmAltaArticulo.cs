@@ -73,6 +73,29 @@ namespace Presentacion
             }
 
         }
+        public List<OpenFileDialog> buscarImagenesCompartidas()
+        {
+            List<OpenFileDialog> lista = new List<OpenFileDialog>();
+            List<Articulo> listaArt = new List<Articulo>();
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            try
+            {
+                listaArt = negocio.listar();
+
+                foreach (var item in listaArt)
+                {
+                    OpenFileDialog archivo = new OpenFileDialog();
+                    archivo.FileName = item.ImagenUrl;
+                    lista.Add(archivo);
+                }
+                return lista;
+            }
+            catch (Exception ex )
+            {
+
+                throw ex;
+            }
+        }
         private void FrmAltaArticulo_Load(object sender, EventArgs e)
         {
             cargar();
@@ -96,6 +119,7 @@ namespace Presentacion
                 {
                     if (help.ValidarVacio(item.Text))
                     {
+                       
                         item.BackColor = Color.Red;
                         lblCamposVacios.Visible = true;
                         return true;
@@ -106,11 +130,17 @@ namespace Presentacion
                         lblCamposVacios.Visible = false;
                     }
                 }
+
+                    if (!(help.soloLetras(txtNombre.Text)))
+                    {
+                        MessageBox.Show("Ingrese solo letras para el campo Nombre");
+                        return true;
+                    }
+
+
                 if (txtPrecio.Text.Contains("."))
-                {
                     lblComa.Visible = true;
                     
-                }
 
                     if (!(help.soloNumerosInsertPrecio(txtPrecio.Text)))
                     {
@@ -147,6 +177,11 @@ namespace Presentacion
 
                 if(cboMarca.SelectedItem == null) //Verifica si al momento de dar aceptar se agrego una nueva marca
                 {
+                    if(string.IsNullOrWhiteSpace(cboMarca.Text))
+                    {
+                        lblVacioCboMarca.Visible = true;
+                        return;
+                    }
                     Marca nueva = new Marca();
                     MarcaNegocio marcaNegocio = new MarcaNegocio();
                     nueva.Descripcion = cboMarca.Text;
@@ -154,10 +189,17 @@ namespace Presentacion
 
                     List<Marca> lista = marcaNegocio.listar();
                     articulo.MarcaArticulo = lista.Find(x => x.Descripcion == nueva.Descripcion);
-                    
-                }
-                if(cboCategoria.SelectedItem == null) //Verifica si al momento de dar aceptar se agrego una nueva categoria
+                }else
+                    lblVacioCboMarca.Visible = false;
+
+
+                if (cboCategoria.SelectedItem == null) //Verifica si al momento de dar aceptar se agrego una nueva categoria
                 {
+                    if (string.IsNullOrWhiteSpace(cboCategoria.Text))
+                    {
+                        lblVacioCboCategoria.Visible = true;
+                        return;
+                    }
                     Categoria nueva = new Categoria();
                     CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
                     nueva.Descripcion = cboCategoria.Text;
@@ -165,7 +207,9 @@ namespace Presentacion
 
                     List<Categoria> lista = categoriaNegocio.listar();
                     articulo.CategoriaArticulo = lista.Find(x => x.Descripcion == nueva.Descripcion);
-                }
+                }else
+                    lblVacioCboCategoria.Visible = false;
+
 
                 if (articulo.Id == 0)
                 {
@@ -187,7 +231,6 @@ namespace Presentacion
                     negocio.agregar(articulo);
                     MessageBox.Show("Agregado exitosamente");
                     actualizarDGV = true;
-
                 }
                 else
                 {
@@ -197,9 +240,13 @@ namespace Presentacion
                         {
                             if (File.Exists(help.obtenerRuta(rutaArchivoLocal, ArchivoEnModificar.SafeFileName))) //Verifica si la imagen anterior continua en la carpeta local
                             {
-                                if (help.validarSiNo("¿Desea borrar la imagen anterior?", "Imagen local.."))
+                               List<OpenFileDialog> lista = help.listadoImagenesArticulos(negocio.listar()); //verifica si algun articulo comparte imagen con otro
+                                if (!(help.BuscarImagenesCompartidas(lista, ArchivoEnModificar)))
                                 {
-                                    File.Delete(help.obtenerRuta(rutaArchivoLocal, ArchivoEnModificar.SafeFileName));
+                                    if (help.validarSiNo("¿Desea borrar la imagen anterior?", "Imagen local.."))
+                                    {
+                                        File.Delete(help.obtenerRuta(rutaArchivoLocal, ArchivoEnModificar.SafeFileName));
+                                    }
                                 }
                             }
                             if (!(File.Exists(help.obtenerRuta(rutaArchivoLocal, archivo.SafeFileName)))) //Verifica si en la carpeta ya hay un archivo igual al que se intenta guardar
@@ -235,7 +282,17 @@ namespace Presentacion
             MarcaNegocio negocio = new MarcaNegocio();
             try
             {
-                nueva.Descripcion = cboMarca.Text;
+                if (string.IsNullOrWhiteSpace(cboMarca.Text))
+                {
+                    lblVacioCboMarca.Visible = true;
+                    return;
+                }
+                else
+                {
+                    nueva.Descripcion = cboMarca.Text;
+                    lblVacioCboMarca.Visible = false;
+                }
+                    
 
                 if(help.existeComboBox(cboMarca, nueva.Descripcion))
                 {
@@ -274,6 +331,7 @@ namespace Presentacion
                 throw ex;
             }
         }
+      
 
         private void btnAgregarDescripcion_Click(object sender, EventArgs e)
         {
@@ -281,8 +339,18 @@ namespace Presentacion
             CategoriaNegocio negocio = new CategoriaNegocio();
             try
             {
-                nueva.Descripcion = cboCategoria.Text;
-                if(help.existeComboBox(cboCategoria, nueva.Descripcion))
+                if (string.IsNullOrWhiteSpace(cboCategoria.Text))
+                {
+                    lblVacioCboCategoria.Visible = true;
+                    return;
+                }
+                else
+                {
+                    lblVacioCboCategoria.Visible = false;
+                    nueva.Descripcion = cboCategoria.Text;
+                }
+
+                if (help.existeComboBox(cboCategoria, nueva.Descripcion))
                 {
                     MessageBox.Show("Ya existe la categoria que desea agregar");
                     return;
@@ -345,8 +413,10 @@ namespace Presentacion
                 {
                     txtImagen.Text = archivo.FileName;
                     help.cargarImagen(pcbAltaArticulo, txtImagen.Text);
-
-                   
+                }
+                else
+                {
+                    archivo = null;
                 }
             }
             catch (Exception ex)
@@ -354,6 +424,11 @@ namespace Presentacion
 
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            buscarImagenesCompartidas();
         }
     }
 }
