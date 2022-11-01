@@ -163,15 +163,6 @@ namespace Presentacion
                 MessageBox.Show(ex.ToString());
             }
         }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            if (dgvArticulos.MultiSelect == true)
-                dgvArticulos.MultiSelect = false;
-            else
-                dgvArticulos.MultiSelect = true;
-        }
-
         private void txtFiltroRapido_TextChanged(object sender, EventArgs e)
         {
             List<Articulo> listaFiltrada;
@@ -204,76 +195,89 @@ namespace Presentacion
                 MessageBox.Show(ex.ToString());
             }
         }
-
         private void lblFiltro_Click(object sender, EventArgs e)
         {
 
         }
-
         private void cboCampo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string opcion = cboCampo.SelectedItem.ToString();
-            if(opcion == "Precio")
+            try
             {
-                cboCriterio.Items.Clear();
-                cboCriterio.Items.Add("Igual");
-                cboCriterio.Items.Add("Menor a");
-                cboCriterio.Items.Add("Mayor a");
+                string opcion = cboCampo.SelectedItem.ToString();
+                if (opcion == "Precio")
+                {
+                    cboCriterio.Items.Clear();
+                    cboCriterio.Items.Add("Igual");
+                    cboCriterio.Items.Add("Menor a");
+                    cboCriterio.Items.Add("Mayor a");
+                }
+                else
+                {
+                    cboCriterio.Items.Clear();
+                    cboCriterio.Items.Add("Comienza con");
+                    cboCriterio.Items.Add("Termina con");
+                    cboCriterio.Items.Add("Contiene");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                cboCriterio.Items.Clear();
-                cboCriterio.Items.Add("Comienza con");
-                cboCriterio.Items.Add("Termina con");
-                cboCriterio.Items.Add("Contiene");
+
+                throw ex; 
             }
         }
         private bool validarFiltro()
         {
-            List<ComboBox> lista = new List<ComboBox>();
-            lista.Add(cboCampo);
-            lista.Add(cboCriterio);
-
-            if (help.comboBoxVacio(lista))
+            try
             {
-                MessageBox.Show("Uno o mas desplegables se encuentran vacios");
-                return true;
-            }
+                List<ComboBox> lista = new List<ComboBox>();
+                lista.Add(cboCampo);
+                lista.Add(cboCriterio);
 
-            if (cboCampo.SelectedItem.ToString() == "Precio")
-            {
-                if (help.ValidarVacio(txtFiltro.Text))
+                if (help.comboBoxVacio(lista))
                 {
-                    MessageBox.Show("El filtro de busqueda se encuentra vacio");
+                    MessageBox.Show("Uno o mas desplegables se encuentran vacios");
                     return true;
                 }
 
-                if (!(help.soloNumeros(txtFiltro.Text)))
+                if (cboCampo.SelectedItem.ToString() == "Precio")
                 {
-                    MessageBox.Show("Ingrese solo numeros para busquedas númericas");
-                    return true;
-                }
-            }
-            if (cboCampo.SelectedItem.ToString() == "Nombre")
-            {
-                if (!(help.soloLetras(txtFiltro.Text)))
-                {
-                    MessageBox.Show("Ingrese letras para busquedas por nombre");
-                    return true;
-                }
-            }
-            if(cboCampo.SelectedItem.ToString() == "Marca")
-            {
-                if (!(help.SoloLetrasONumeros(txtFiltro.Text)))
-                {
-                    MessageBox.Show("Ingrese letras o números para busquedas por marca");
-                    return true;
-                }
-            }
+                    if (help.ValidarVacio(txtFiltro.Text))
+                    {
+                        MessageBox.Show("El filtro de busqueda se encuentra vacio");
+                        return true;
+                    }
 
-            return false;
+                    if (!(help.soloNumeros(txtFiltro.Text)))
+                    {
+                        MessageBox.Show("Ingrese solo numeros para busquedas númericas");
+                        return true;
+                    }
+                }
+                if (cboCampo.SelectedItem.ToString() == "Nombre")
+                {
+                    if (!(help.soloNumeros(txtFiltro.Text)))
+                    {
+                        MessageBox.Show("Ingrese letras para busquedas por nombre");
+                        return true;
+                    }
+                }
+                if (cboCampo.SelectedItem.ToString() == "Marca")
+                {
+                    if (!(help.SoloLetrasONumeros(txtFiltro.Text)))
+                    {
+                        MessageBox.Show("Ingrese letras o números para busquedas por marca");
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
-
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
@@ -292,7 +296,6 @@ namespace Presentacion
                 MessageBox.Show(ex.ToString());
             }
         }
-
         private void dgvArticulos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             Articulo seleccionado;
@@ -309,18 +312,14 @@ namespace Presentacion
                 MessageBox.Show(ex.ToString());
             }
         }
-
-
         private void dgvArticulos_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
             lblDetalle.Visible = false;
         }
-
         private void dgvArticulos_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             lblDetalle.Visible = true;
         }
-
         private void btnActualizar_Click(object sender, EventArgs e)
         {
             try

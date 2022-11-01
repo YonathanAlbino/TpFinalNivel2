@@ -40,7 +40,6 @@ namespace Presentacion
         private OpenFileDialog ArchivoEnModificar = new OpenFileDialog(); //Se carga al intentar modificar un Articulo
         string rutaArchivoLocal = ConfigurationManager.AppSettings["Articulo-app"];
 
-
         private void cargar()
         {
             MarcaNegocio negocio = new MarcaNegocio();
@@ -73,40 +72,15 @@ namespace Presentacion
             }
 
         }
-        public List<OpenFileDialog> buscarImagenesCompartidas()
-        {
-            List<OpenFileDialog> lista = new List<OpenFileDialog>();
-            List<Articulo> listaArt = new List<Articulo>();
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            try
-            {
-                listaArt = negocio.listar();
-
-                foreach (var item in listaArt)
-                {
-                    OpenFileDialog archivo = new OpenFileDialog();
-                    archivo.FileName = item.ImagenUrl;
-                    lista.Add(archivo);
-                }
-                return lista;
-            }
-            catch (Exception ex )
-            {
-
-                throw ex;
-            }
-        }
         private void FrmAltaArticulo_Load(object sender, EventArgs e)
         {
             cargar();
         }
-
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             Close();
         }
-
-       private bool validarAlta()
+        private bool validarAlta()
         {
             try
             {
@@ -130,12 +104,6 @@ namespace Presentacion
                         lblCamposVacios.Visible = false;
                     }
                 }
-
-                    if (!(help.soloLetras(txtNombre.Text)))
-                    {
-                        MessageBox.Show("Ingrese solo letras para el campo Nombre");
-                        return true;
-                    }
 
 
                 if (txtPrecio.Text.Contains("."))
@@ -275,7 +243,6 @@ namespace Presentacion
         {
             return actualizarDGV;
         }
-
         private void btbAgregarMarca_Click(object sender, EventArgs e)
         {
             Marca nueva = new Marca();
@@ -311,7 +278,6 @@ namespace Presentacion
                 throw ex;
             }
         }
-
         private void btnEliminarMarca_Click(object sender, EventArgs e)
         {
             Marca seleccionada;
@@ -331,8 +297,6 @@ namespace Presentacion
                 throw ex;
             }
         }
-      
-
         private void btnAgregarDescripcion_Click(object sender, EventArgs e)
         {
             Categoria nueva = new Categoria();
@@ -367,7 +331,6 @@ namespace Presentacion
                 throw ex;
             }
         }
-
         private void btnEliminarDescripcion_Click(object sender, EventArgs e)
         {
             Categoria seleccionada = new Categoria();
@@ -388,7 +351,6 @@ namespace Presentacion
                 throw ex;
             }
         }
-
         private void txtImagen_Leave(object sender, EventArgs e)
         {
             try
@@ -401,7 +363,6 @@ namespace Presentacion
                 MessageBox.Show(ex.ToString());
             }
         }
-
         private void btnAgregarImagenLocal_Click(object sender, EventArgs e)
         {
             archivo = new OpenFileDialog();
@@ -424,11 +385,6 @@ namespace Presentacion
 
                 MessageBox.Show(ex.ToString());
             }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            buscarImagenesCompartidas();
         }
     }
 }

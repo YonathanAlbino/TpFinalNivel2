@@ -269,16 +269,24 @@ namespace Helper
         }
         public bool BuscarImagenesCompartidas(List<OpenFileDialog> lista, OpenFileDialog ArchivoEnModificar)
         {
-            int aux = 0;
-            foreach (var item in lista)
+            try
             {
-                if (item.SafeFileName == ArchivoEnModificar.SafeFileName)
-                    aux++;
+                int aux = 0;
+                foreach (var item in lista)
+                {
+                    if (item.SafeFileName == ArchivoEnModificar.SafeFileName)
+                        aux++;
+                }
+                if (aux == 1)
+                    return false;
+                else
+                    return true;
             }
-            if(aux == 1)
-                return false;
-            else
-                return true;
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }
