@@ -162,6 +162,7 @@ namespace Helper
                 {
                     if (!(char.IsLetterOrDigit(item)))
                     {
+                       if(!(char.IsWhiteSpace(item)))
                         return false;
                     }
                     else if (item.ToString() == "ª" || item.ToString() == "º")

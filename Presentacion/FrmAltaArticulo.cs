@@ -105,6 +105,12 @@ namespace Presentacion
                     }
                 }
 
+                if (!(help.SoloLetrasONumeros(txtNombre.Text)))
+                {
+                    MessageBox.Show("Ingrese letras o números para el campo nombre");
+                    return true;
+                }
+
 
                 if (txtPrecio.Text.Contains("."))
                     lblComa.Visible = true;
@@ -150,16 +156,23 @@ namespace Presentacion
                         lblVacioCboMarca.Visible = true;
                         return;
                     }
+                    else
+                        lblVacioCboMarca.Visible = false;
+
                     Marca nueva = new Marca();
                     MarcaNegocio marcaNegocio = new MarcaNegocio();
                     nueva.Descripcion = cboMarca.Text;
+
+                    if (help.existeComboBox(cboMarca, nueva.Descripcion))
+                    {
+                        MessageBox.Show("Ya existe la marca que desea agregar");
+                        return;
+                    }
                     marcaNegocio.agregar(nueva);
 
                     List<Marca> lista = marcaNegocio.listar();
                     articulo.MarcaArticulo = lista.Find(x => x.Descripcion == nueva.Descripcion);
-                }else
-                    lblVacioCboMarca.Visible = false;
-
+                }
 
                 if (cboCategoria.SelectedItem == null) //Verifica si al momento de dar aceptar se agrego una nueva categoria
                 {
@@ -168,16 +181,24 @@ namespace Presentacion
                         lblVacioCboCategoria.Visible = true;
                         return;
                     }
+                    else
+                        lblVacioCboCategoria.Visible = false;
+
                     Categoria nueva = new Categoria();
                     CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
                     nueva.Descripcion = cboCategoria.Text;
+
+                    if (help.existeComboBox(cboCategoria, nueva.Descripcion))
+                    {
+                        MessageBox.Show("Ya existe la categoria que desea agregar");
+                        return;
+                    }
+                    
                     categoriaNegocio.agregar(nueva);
 
                     List<Categoria> lista = categoriaNegocio.listar();
                     articulo.CategoriaArticulo = lista.Find(x => x.Descripcion == nueva.Descripcion);
-                }else
-                    lblVacioCboCategoria.Visible = false;
-
+                }
 
                 if (articulo.Id == 0)
                 {

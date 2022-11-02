@@ -249,15 +249,15 @@ namespace Presentacion
 
                     if (!(help.soloNumeros(txtFiltro.Text)))
                     {
-                        MessageBox.Show("Ingrese solo numeros para busquedas númericas");
+                        MessageBox.Show("Ingrese solo números para busquedas númericas");
                         return true;
                     }
                 }
                 if (cboCampo.SelectedItem.ToString() == "Nombre")
                 {
-                    if (!(help.soloNumeros(txtFiltro.Text)))
+                    if (!(help.SoloLetrasONumeros(txtFiltro.Text)))
                     {
-                        MessageBox.Show("Ingrese letras para busquedas por nombre");
+                        MessageBox.Show("Ingrese letras o números para busquedas por nombre");
                         return true;
                     }
                 }
